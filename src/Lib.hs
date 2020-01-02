@@ -4,7 +4,7 @@ module Lib
 
 import Data.Maybe (maybe)
 import Prelude hiding (Either(..))
-import System.IO (BufferMode(NoBuffering), hFlush, hSetBuffering, stdin, stdout)
+import System.IO (BufferMode(NoBuffering), hSetBuffering, stdin, stdout)
 import System.Random (randomIO)
 
 import Board (Board, gameOver, genBoard, genNewCell, makeMerge)
@@ -12,7 +12,7 @@ import Direction (Direction, readDirection)
 
 game :: IO ()
 game = do
-  hSetBuffering stdin NoBuffering
+  mapM_ (flip hSetBuffering NoBuffering) [stdin, stdout]
   putStrLn prompt
   board <- genBoard <$> random
   loop board
@@ -35,7 +35,7 @@ loop board = do
 
 getTurn :: IO Direction
 getTurn = do
-  putStr "your turn: " >> flush
+  putStr "your turn: " 
   direction <- readDirection <$> getChar
   putStrLn ""
   maybe (putStrLn "Try again" >> getTurn) return direction
@@ -53,6 +53,3 @@ draw = print
 
 random :: IO Int
 random = randomIO
-
-flush :: IO ()
-flush = hFlush stdout
