@@ -3,7 +3,7 @@
  > stack run
 
 This is 2048 in Haskell
-Control: w (or up) | a (or left) | s (or down) | d (or right)
+Control: w (up) | a (left) | s (down) | d (right)
 Enjoy
 
 +---+---+---+---+

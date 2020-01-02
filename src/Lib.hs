@@ -4,14 +4,15 @@ module Lib
 
 import Data.Maybe (maybe)
 import Prelude hiding (Either(..))
+import System.IO (BufferMode(NoBuffering), hFlush, hSetBuffering, stdin, stdout)
 import System.Random (randomIO)
-import System.IO (hFlush, stdout)
 
 import Board (Board, gameOver, genBoard, genNewCell, makeMerge)
 import Direction (Direction, readDirection)
 
 game :: IO ()
 game = do
+  hSetBuffering stdin NoBuffering
   putStrLn prompt
   board <- genBoard <$> random
   loop board
@@ -21,7 +22,7 @@ prompt =
   unlines
     [ ""
     , "This is 2048 in Haskell"
-    , "Control: w (or up) | a (or left) | s (or down) | d (or right)"
+    , "Control: w (up) | a (left) | s (down) | d (right)"
     , "Enjoy"
     ]
 
@@ -35,7 +36,8 @@ loop board = do
 getTurn :: IO Direction
 getTurn = do
   putStr "your turn: " >> flush
-  direction <- readDirection <$> getLine
+  direction <- readDirection <$> getChar
+  putStrLn ""
   maybe (putStrLn "Try again" >> getTurn) return direction
 
 makeTurn :: Board -> IO Board

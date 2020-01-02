@@ -11,13 +11,13 @@ data Direction
   | Right
   deriving (Show, Eq)
 
-readDirection :: String -> Maybe Direction
-readDirection = recognize . map toLower
+readDirection :: Char -> Maybe Direction
+readDirection = recognize . toLower
   where
     recognize raw =
-      fmap snd . find (elem raw . fst) $
-      [ (["w", "up"], Up)
-      , (["s", "down"], Down)
-      , (["a", "left"], Left)
-      , (["d", "right"], Right)
+      fmap snd . find ((raw==) . fst) $
+      [ ('w', Up)
+      , ('s', Down)
+      , ('a', Left)
+      , ('d', Right)
       ]
