@@ -62,7 +62,7 @@ genNewCell board@(Board lines) gen = putCell board cell pos
       | gen `mod` 3 == 0 = Number 1
       | otherwise = Number 0
     pos = emptyCells !! (gen `mod` length emptyCells)
-    emptyCells = findIndices (== Empty) . concat $ lines
+    emptyCells = elemIndices Empty . concat $ lines
 
 genBoard :: Int -> Board
 genBoard gen = foldl put emptyBoard $ zip positions cells

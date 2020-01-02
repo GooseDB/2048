@@ -12,7 +12,7 @@ import Direction (Direction, readDirection)
 
 game :: IO ()
 game = do
-  mapM_ (flip hSetBuffering NoBuffering) [stdin, stdout]
+  mapM_ (`hSetBuffering` NoBuffering) [stdin, stdout]
   putStrLn prompt
   board <- genBoard <$> random
   loop board
